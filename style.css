@@ -1,0 +1,108 @@
+/* css主要設定網頁html格式設定 */
+html, body {
+  margin: 0; /* 移除預設的外邊距 */
+  padding: 0; /* 移除預設的內邊距 */
+  height: 100%; /* 設定高度為視窗的 100% */
+  overflow: hidden; /* 隱藏滾動條 */
+}
+
+canvas {
+  display: block; /* 將畫布設為區塊元素 */
+  position: absolute; /* 絕對定位 */
+  top: 0; /* 畫布頂部對齊視窗 */
+  left: 0; /* 畫布左側對齊視窗 */
+  z-index: 1; /* 設定畫布為最底層 */
+}
+
+/* 選單樣式 */
+.menu {
+  position: absolute; /* 絕對定位 */
+  top: 12px; /* 距離視窗頂部 12px */
+  right: 12px; /* 距離視窗右側 12px */
+  list-style: none; /* 移除列表的預設樣式 */
+  margin: 0; /* 移除外邊距 */
+  padding: 0; /* 移除內邊距 */
+  display: flex; /* 使用 Flexbox 排列選單項目 */
+  gap: 20px; /* 選單項目之間的間距 */
+  z-index: 3; /* 設定選單為最上層 */
+  background-color: transparent; /* 確保選單容器背景透明 */
+  border: none; /* 移除選單的邊框 */
+}
+
+.menu li {
+  position: relative; /* 設定為相對定位，方便子選單定位 */
+  border: none; /* 移除選單項目的邊框 */
+}
+
+.menu a {
+  text-decoration: none; /* 移除超連結的預設底線 */
+  color: #333; /* 設定文字顏色 */
+  font-size: 20px; /* 設定文字大小 */
+  font-weight: bold; /* 設定文字加粗 */
+  padding: 10px 15px; /* 設定內邊距，增加點擊範圍 */
+  border: none; /* 移除選單項目的邊框 */
+  border-radius: 8px; /* 設定圓角 */
+  background-color: rgba(222, 226, 255); /* 設定選單項目的背景顏色 */
+  transition: background-color 0.3s, color 0.3s; /* 增加背景顏色和文字顏色的過渡效果 */
+}
+
+.menu a:hover {
+  background-color: rgba(222, 226, 255, 0.8); /* 滑鼠懸停時降低透明度 */
+  color: #000; /* 滑鼠懸停時的文字顏色 */
+}
+
+.menu a:active {
+  background-color: rgba(222, 226, 255, 0.6); /* 按下時提高透明度 */
+  color: #000; /* 按下時的文字顏色 */
+}
+
+/* 子下拉式選單 */
+.submenu {
+  display: none; /* 預設隱藏子選單 */
+  position: absolute; /* 絕對定位 */
+  top: 100%; /* 子選單緊貼主選單底部 */
+  left: 0; /* 子選單與主選單左側對齊 */
+  list-style: none; /* 移除列表的預設樣式 */
+  margin: 0; /* 移除外邊距 */
+  padding: 0; /* 移除內邊距 */
+  background-color: rgba(255, 232, 214, 0.2); /* 設定背景顏色及透明度 */
+  border: none; /* 移除子選單的邊框 */
+  border-radius: 8px; /* 設定圓角 */
+  z-index: 999; /* 提高子選單的層級，確保在最上層 */
+  width: 100%; /* 子選單寬度與主選單項目相同 */
+}
+
+.submenu li {
+  margin: 0; /* 移除子選單項目的外邊距 */
+  border: none; /* 移除子選單項目的邊框 */
+}
+
+.submenu a {
+  display: block; /* 設定子選單項目為區塊元素 */
+  padding: 10px 15px; /* 設定內邊距，增加點擊範圍 */
+  font-size: 16px; /* 設定子選單文字大小 */
+  text-align: center; /* 文字置中 */
+  border: none; /* 移除子選單項目的邊框 */
+}
+
+.dropdown:hover .submenu {
+  display: block; /* 當滑鼠懸停在主選單項目時，顯示子選單 */
+}
+
+/* iframe 樣式 */
+#iframe-container {
+  position: absolute; /* 絕對定位 */
+  top: 50%; /* 垂直置中 */
+  left: 50%; /* 水平置中 */
+  transform: translate(-50%, -50%); /* 使用 transform 進行精確置中 */
+  width: 80%; /* 設定 iframe 寬度為視窗的 80% */
+  height: 80%; /* 設定 iframe 高度為視窗的 80% */
+  z-index: 2; /* 設定 iframe 為第二層 */
+  background-color: rgba(0, 0, 0, 0.2); /* 設定背景顏色及透明度 */
+}
+
+iframe {
+  width: 100%; /* 設定 iframe 寬度為容器的 100% */
+  height: 100%; /* 設定 iframe 高度為容器的 100% */
+  border: none; /* 移除 iframe 的邊框 */
+}

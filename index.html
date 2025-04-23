@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="style-src 'self' 'unsafe-inline' https://accounts.google.com/gsi/style https://fonts.gstatic.com;">
+
+    <title>Sketch</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script src="libraries/p5.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
+
+    <style>
+      /* 下拉式選單樣式 */
+      .menu {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1001; /* 確保選單在 iframe 之上 */
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      .menu > li {
+        display: inline-block;
+        position: relative;
+      }
+
+      .menu > li > a {
+        text-decoration: none;
+        padding: 10px 15px;
+        display: block;
+      }
+
+      .submenu {
+        display: none;
+        position: absolute;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        background-color: white;
+        border: 1px solid #ccc;
+        z-index: 1001; /* 確保子選單在 iframe 之上 */
+      }
+
+      .submenu > li > a {
+        text-decoration: none;
+        padding: 10px 15px;
+        display: block;
+      }
+
+      .menu > li:hover .submenu {
+        display: block;
+      }
+
+      /* 預設 iframe 樣式 */
+      #content-frame {
+        z-index: 2; /* 設定 iframe 在背景前 */
+        width: 80%; /* 預設寬度為畫面的 80% */
+        height: 80%; /* 預設高度為畫面的 80% */
+        position: fixed; /* 固定位置，避免滾動影響 */
+        top: 10%; /* 預設距離畫面頂部 10% */
+        left: 10%; /* 預設距離畫面左側 10% */
+        border: none; /* 移除邊框 */
+        background-color: rgba(0, 0, 0, 0.2); /* 背景透明度 */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加陰影效果 */
+        border-radius: 10px; /* 添加圓角 */
+      }
+
+      /* 背景畫布 */
+      canvas {
+        z-index: 1; /* 設定畫布為背景層 */
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 選單 -->
+    <ul class="menu">
+      <li><a href="#" onclick="hideIframe()">首頁</a></li>
+      <li><a href="#" onclick="loadIframe('https://hackmd.io/@Csf31Ol7RQqGrcJTecEoKg/自我介紹')">自我介紹</a></li>
+      <li class="dropdown">
+        <a href="#portfolio">作品集</a>
+        <ul class="submenu">
+          <li><a href="#" onclick="loadIframe('https://renee0722.github.io/0328/')">第一周</a></li>
+          <li><a href="#" onclick="loadIframe('https://renee0722.github.io/20250221/')">第二周</a></li>
+          <li><a href="#" onclick="loadIframe('https://renee0722.github.io/20250307/')">第三周</a></li>
+          <li><a href="#" onclick="loadIframe('https://renee0722.github.io/0314/')">第四周</a></li>
+        </ul>
+      </li>
+      <li><a href="#" onclick="loadIframe('https://renee0722.github.io/0321/')">測驗卷</a></li>
+      <li class="dropdown">
+        <a href="#tutorials">教學影片</a>
+        <ul class="submenu">
+          <li><a href="#" onclick="loadIframe('https://cfchen58.synology.me/%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%882024/A2/week1/20250221_092037.mp4')">第一段 安裝 GitHub Copilot 組件</a></li>
+          <li><a href="#" onclick="loadIframe('https://cfchen58.synology.me/%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%882024/A2/week1/20250221_094637.mp4')">第二段 開始寫 p5.js/透過 Copilot 產生程式碼學習</a></li>
+          <li><a href="#" onclick="loadIframe('https://cfchen58.synology.me/%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%882024/A2/week1/20250221_095804.mp4')">第三段 透過 Copilot 自動產生程式碼做學習</a></li>
+          <li><a href="#" onclick="loadIframe('https://cfchen58.synology.me/%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%882024/A2/week1/20250221_101623.mp4')">第四段 透過 AI 產生圓圈移動程式操作說明</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <!-- iframe 用於嵌入網頁 -->
+    <iframe id="content-frame" src="" frameborder="0" style="display: none;"></iframe>
+
+    <script src="sketch.js"></script>
+
+    <script>
+      // 隱藏 iframe
+      function hideIframe() {
+        const iframe = document.getElementById('content-frame');
+        if (iframe) {
+          iframe.style.display = 'none'; // 隱藏 iframe
+        }
+      }
+
+      // 動態載入 iframe 的內容
+      function loadIframe(url) {
+        const iframe = document.getElementById('content-frame');
+        if (iframe) {
+          iframe.style.display = 'block'; // 顯示 iframe
+          iframe.src = url; // 設定 iframe 的 src 為傳入的網址
+
+          // 如果是測驗卷，設置為全螢幕
+          if (url === 'https://renee0722.github.io/0321/') {
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.top = '0';
+            iframe.style.left = '0';
+            iframe.style.borderRadius = '0'; // 移除圓角
+          } else {
+            // 恢復預設樣式
+            iframe.style.width = '80%';
+            iframe.style.height = '80%';
+            iframe.style.top = '10%';
+            iframe.style.left = '10%';
+            iframe.style.borderRadius = '10px';
+          }
+        } else {
+          console.error('找不到 iframe 元素');
+        }
+      }
+
+      // 頁面載入時隱藏 iframe
+      window.onload = hideIframe;
+    </script>
+  </body>
+</html>
